@@ -1,0 +1,4 @@
+discord
+asyncio
+googletrans
+pymongo==3.1
