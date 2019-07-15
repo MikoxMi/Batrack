@@ -83,11 +83,12 @@ class Events(commands.Cog):
             return
         rec_reactions = record["reactions"]
         rec_roles = record["roles"]
+        more_roles = record["more_roles"]
 
         guild = discord.utils.get(self.bot.guilds, id=guild_id)
         member = discord.utils.get(guild.members, id=user_id)
 
-        if rec_roles is not True:
+        if more_roles is not True:
             for role_check in member.roles:
                 for role_record in rec_roles:
                     if str(role_check) == str(role_record):
