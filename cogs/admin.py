@@ -65,8 +65,14 @@ class Admin(commands.Cog):
         =add_art_channel <channel_name>
         """
         record = await Mongo.get_record('server_settings', 'id', ctx.message.guild.id)
+        channels = record['channel_art']
+        if channels:
+            channels.append(channel)
+        else:
+            channels = []
+            channels.append(channel)
         upg = {
-            "channel_art": channel
+            "channel_art": channels
         }
         await Mongo.update_record('server_settings', record, upg)
         

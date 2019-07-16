@@ -179,7 +179,7 @@ class Events(commands.Cog):
                 await Mongo.update_record('members', member_record, upg_money)
 
         channel_art = server_record["channel_art"]
-        if channel_art == str(message.channel):
+        if str(message.channel) in channel_art:
             reactions = ['👍', '👎']
             for react in reactions:
                 await message.add_reaction(react)
