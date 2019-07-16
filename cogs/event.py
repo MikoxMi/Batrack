@@ -197,7 +197,7 @@ class Events(commands.Cog):
 
         if member_record is None:
             upg_member = {
-                "id": "%s" % (member.id),
+                "id": member.id,
                 "member_name": "%s" % (member),
                 "money": 0,
                 "tree": 0,
