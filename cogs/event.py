@@ -78,9 +78,12 @@ class Events(commands.Cog):
         user_id = payload.user_id
         if user_id == 596671342514798597:
             return
+
         record = await Mongo.get_record('reactions', 'msg_id', str(msg_id))
+
         if record is None:
             return
+
         rec_reactions = record["reactions"]
         rec_roles = record["roles"]
         more_roles = record["more_roles"]
@@ -89,13 +92,11 @@ class Events(commands.Cog):
         member = discord.utils.get(guild.members, id=user_id)
 
         if more_roles is not True:
-            print('true')
             for role_check in member.roles:
-                for role_record in rec_roles:
-                    if str(role_check) == str(role_record):
-                        await member.remove_roles(role_check)
-                    else:
-                        pass
+                if str(role_check) in rec_roles:
+                    await member.remove_roles(role_check)
+                else:
+                    pass
         else:
             pass
 
