@@ -11,7 +11,7 @@ class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
+    @commands.Cog.listener()
     async def on_ready(self):
         """
         Instructions after authorization
@@ -137,7 +137,6 @@ class Events(commands.Cog):
         guild = discord.utils.get(self.bot.guilds, id=guild_id)
         role = discord.utils.get(guild.roles, name=rec_roles[_id])
         member = discord.utils.get(guild.members, id=user_id)
-        print('true')
         await member.remove_roles(role)
 
     @commands.Cog.listener()
@@ -232,7 +231,7 @@ class Events(commands.Cog):
         await Mongo.delete_record('members', 'id', member.id)
         await Mongo.delete_record('members', 'id', member.id)
 
-
+    @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         """Реакция на ошибки в командах или Cooldown"""
         if isinstance(error, commands.NoPrivateMessage):
