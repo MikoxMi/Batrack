@@ -92,8 +92,8 @@ class Events(commands.Cog):
         member = discord.utils.get(guild.members, id=user_id)
 
         if more_roles is not True:
-            for role_check in member.roles:
-                if str(role_check) in rec_roles:
+            for role_check in rec_roles:
+                if role_check in member.roles:
                     await member.remove_roles(role_check)
                 else:
                     pass
