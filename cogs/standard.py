@@ -483,8 +483,21 @@ class Standard(commands.Cog):
         await ctx.send('Save successfully')
 
 
+    @commands.command(pass_context=True, aliases=['ava'])
+    async def avatar(self, ctx, nick=None)
+        """
+        Посмотреть аватарку пользователя
+        -ava <None|member>
+        """
+        try:
+            record, member = await DiscordUtils.get_user(self.bot, ctx, 0, nick)
+        except TypeError:
+            return
         
+        em = discord.Embed(colour=int('0x36393f', 0))
+        em.set_img(url=member.avatar_url)
 
+        await ctx.send(embed=em)
         
 
     @commands.command(pass_context=True)

@@ -20,7 +20,7 @@ async def get_prefix(bot, message):
     prefix = str(record['prefix'])
     return commands.when_mentioned_or(prefix)(bot, message)
 
-bot = commands.Bot(command_prefix='=', description='HackWeek SlavyaBot v 1\n Standard prefix: "="')
+bot = commands.Bot(command_prefix='=', description='Batrack v 1.5\n Standard prefix: "="')
 
 extensions = ['cogs.standard',
               'cogs.admin',
