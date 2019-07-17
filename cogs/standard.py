@@ -484,7 +484,7 @@ class Standard(commands.Cog):
 
 
     @commands.command(pass_context=True, aliases=['ava'])
-    async def avatar(self, ctx, nick=None)
+    async def avatar(self, ctx, nick=None):
         """
         Посмотреть аватарку пользователя
         -ava <None|member>
@@ -495,7 +495,8 @@ class Standard(commands.Cog):
             return
         
         em = discord.Embed(colour=int('0x36393f', 0))
-        em.set_img(url=member.avatar_url)
+        em.set_author(name=f'Аватар пользователя: {member.name}', icon_url=member.avatar_url)
+        em.set_image(url=member.avatar_url)
 
         await ctx.send(embed=em)
         
