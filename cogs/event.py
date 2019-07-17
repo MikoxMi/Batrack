@@ -11,7 +11,7 @@ class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
+
     async def on_ready(self):
         """
         Instructions after authorization
@@ -91,15 +91,6 @@ class Events(commands.Cog):
         guild = discord.utils.get(self.bot.guilds, id=guild_id)
         member = discord.utils.get(guild.members, id=user_id)
 
-        if more_roles is not True:
-            for role_check in rec_roles:
-                if str(role_check) in member.roles:
-                    await member.remove_roles(role_check)
-                else:
-                    pass
-        else:
-            pass
-
         for i, reaction in enumerate(rec_reactions):
             if str(emoji) == reaction:
                 role = discord.utils.get(guild.roles, name=rec_roles[i])
@@ -107,6 +98,16 @@ class Events(commands.Cog):
                 pass
 
         await member.add_roles(role)
+
+        if more_roles is not True:
+            for role_check in member.roles:
+                for role_record in rec_roles:
+                    if str(role_check) == str(role_record) and role.name != str(role_check):
+                        await member.remove_roles(role_check)
+                    else:
+                        pass
+        else:
+            pass
 
         
     @commands.Cog.listener()
@@ -140,7 +141,7 @@ class Events(commands.Cog):
         member = discord.utils.get(guild.members, id=user_id)
         await member.remove_roles(role)
 
-    @commands.Cog.listener()
+
     async def on_message(self, message):
         """
         React bot on all member message
