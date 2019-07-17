@@ -11,7 +11,7 @@ class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
+    @commands.Cog.listener()
     async def on_ready(self):
         """
         Instructions after authorization
@@ -141,7 +141,7 @@ class Events(commands.Cog):
         member = discord.utils.get(guild.members, id=user_id)
         await member.remove_roles(role)
 
-
+    @commands.Cog.listener()
     async def on_message(self, message):
         """
         React bot on all member message
