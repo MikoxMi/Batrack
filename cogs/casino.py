@@ -20,7 +20,7 @@ class Casino(commands.Cog):
         
         -br <bet>"""
 
-        emoji = await DiscordUtils.get_emoj(ctx)
+        emoji = await DiscordUtils.get_emoji(ctx)
 
         if not bet.isdigit():
             await ctx.send("Используйте только числа")
