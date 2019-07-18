@@ -20,13 +20,14 @@ class Casino(commands.Cog):
         
         -br <bet>"""
 
-        emoji = await DiscordUtils.get_emoji(ctx)
+        emoji = await DiscordUtils.get_emoj(ctx)
 
         if not bet.isdigit():
             await ctx.send("Используйте только числа")
             return
 
         #Get money
+        record = self.members.find_one({"user_id":ctx.message.author.id})
         record = await Mongo.get_record('members', 'id', ctx.message.author.id)
         money = int(record['money'])
         if money < int(bet):
@@ -54,7 +55,9 @@ class Casino(commands.Cog):
             networth = int(bet) * 14
             await ctx.send(f"{ctx.message.author.mention}. Вы выйграли: {networth}{emoji}. Умноежение: x14")
 
-        count = money + networth
+        record_new = await Mongo.get_record('members', 'id', ctx.message.author.id)
+        money_new = int(record_new['money'])
+        count = money_new + networth
         upg = {
             "money":count
         }
