@@ -27,7 +27,6 @@ class Casino(commands.Cog):
             return
 
         #Get money
-        record = self.members.find_one({"user_id":ctx.message.author.id})
         record = await Mongo.get_record('members', 'id', ctx.message.author.id)
         money = int(record['money'])
         if money < int(bet):
