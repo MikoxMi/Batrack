@@ -9,13 +9,12 @@ from .utils.u_discord import DiscordUtils
 from discord.ext import commands
 
 
-class Casino():
+class Casino(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
 
     @commands.command(pass_context=True)
-    @commands.cooldown(1, 4, commands.BucketType.user)
     async def br(self, ctx, bet):
         """Кости, етить их мадрить
         
