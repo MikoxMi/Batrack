@@ -27,7 +27,8 @@ extensions = ['cogs.standard',
               'cogs.shop',
               'cogs.owner',
               'cogs.event',
-              'cogs.activity']
+              'cogs.activity',
+              'cogs.casino']
 
 
 if __name__ == "__main__":
