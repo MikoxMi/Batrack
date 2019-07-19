@@ -36,7 +36,8 @@ class Standard(commands.Cog):
             if doc['id'] == member.id:
                 rank = i
 
-        em = discord.Embed(colour=ctx.message.author.color, description=F"Ваш ранк: {rank}. Всего добыто: {obwak}{emoji}")
+        desc = F"Ваш ранк: {rank}. Всего добыто: {obwak}{emoji}"
+        em = discord.Embed(colour=ctx.message.author.color, description=desc)
         em.set_author(name=f'Ресурсы пользователя: {member.name}', icon_url=member.avatar_url)
         em.add_field(name="Золото:", value=F"{money}{emoji}")
         em.add_field(name="Еда:", value=F"{food}/{food_max}{emoji_food}")
@@ -93,112 +94,6 @@ class Standard(commands.Cog):
         await Mongo.update_record('members', record, upg)
         await ctx.send(embed=em)
 
-
-    async def dep(self, ctx, inp):
-        """
-        Deposit you money to bank
-        -dep <money>
-        """
-        emoji = await DiscordUtils.get_emoji(ctx)
-
-        userID = ctx.message.author.id
-        record = await Mongo.get_record('members', 'id', userID)
-        member = discord.utils.get(ctx.message.guild.members, id=userID)
-
-        money = int(record["money"])
-        bank = int(record["bank"])
-
-        if inp == 'all':
-            if money <= 0:
-                await ctx.send(F"You don't have enough money")
-                return
-
-            wr_money = int(money) + int(bank)
-            upg = {
-                "bank":int(wr_money), 
-                "money":0
-                }
-            
-            await Mongo.update_record('members', record, upg)
-            em = discord.Embed(description=(F"You deposit {money}{emoji} to the Soviet Bank"), 
-                               colour=ctx.message.author.colour)
-        else:
-            if not inp.isdigit():
-                await ctx.send("Use only numbers")
-                return
-
-            del_money = money - int(inp)
-            if del_money < 0:
-                await ctx.send(F"You don't have a money")
-                return
-
-            wr_money = bank + int(inp)
-
-            upg = {
-                "bank":wr_money, 
-                "money":del_money
-                }
-            await Mongo.update_record('members', record, upg)
-
-            em = discord.Embed(description=(F"You deposit {inp}{emoji} to the Soviet Bank"), 
-                               colour=ctx.message.author.colour)
-
-        em.set_author(name=f'{member.name}', icon_url=member.avatar_url)
-        await ctx.send(embed=em)
-
-
-    async def withed(self, ctx, dep):
-        """
-        Get money from bank
-        -with <money>
-        """
-
-        emoji = await DiscordUtils.get_emoji(ctx)
-
-        userID = ctx.message.author.id
-        member = discord.utils.get(ctx.message.guild.members, id = userID)
-
-        record = await Mongo.get_record('members', 'id', userID)
-        money = int(record["money"])
-        bank = int(record["bank"])
-        if dep == 'all':
-            if bank <= 0:
-                await ctx.send(F"You don't have enough money")
-                return
-
-            wr_money = money + bank
-
-            upg = {
-                "bank":0, 
-                "money":wr_money
-            }
-
-            await Mongo.update_record('members', record, upg)
-            em = discord.Embed(description=(F"You get {bank}{emoji} from Soviet Bank"), 
-                               colour=ctx.message.author.colour)
-        else:
-            if not dep.isdigit():
-                await ctx.send("Use only numbers")
-                return
-
-            del_money = bank - int(dep)
-            wr_money = money + int(dep)
-
-            if del_money < 0:
-                await ctx.send(F"You don't have enough money")
-                return
-
-            upg = {
-                "bank":del_money, 
-                "money":wr_money
-                }
-
-            await Mongo.update_record('members', record, upg)
-            em = discord.Embed(description=(F"You get {dep}{emoji} from Soviet Bank"), 
-                               colour=ctx.message.author.colour)
-
-        em.set_author(name=f'{member.name}', icon_url=member.avatar_url)
-        await ctx.send(embed=em)
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 86400, commands.BucketType.user)
@@ -306,24 +201,24 @@ class Standard(commands.Cog):
         title = record["title"]
         name_field_1 = record["name_field_1"]
         name_field_2 = record["name_field_2"]
+        name_field_3 = record["name_field_3"]
         field_1 = record["field_1"]
         field_2 = record["field_2"]
+        field_3 = record["field_3"]
         description = record["description"]
         image = record["image"]
         em.add_field(name="Title", value=title, inline=False)
 
         #Todo: Check on key item names in fields
-        check_name = [name_field_1, name_field_2]
-        check_list = [field_1, field_2]
+        check_name = [name_field_1, name_field_2, name_field_3]
+        check_list = [field_1, field_2, field_3]
         check_keys = ['rep', 'summary_money']
         for i_keys, check in enumerate(check_list):
             if check in check_keys:
-                print('true')
                 record_member = await Mongo.get_record('members', 'id', member.id)
                 value = record_member[check]
                 em.add_field(name=check.capitalize(), value=value, inline=True)
             else:
-                print(check_list[i_keys])
                 em.add_field(name=f"{check_name[i_keys]}", value=check_list[i_keys], inline=True)
 
         record_inv = await Mongo.get_record('members', 'id', member.id)
@@ -431,7 +326,8 @@ class Standard(commands.Cog):
                     msg_helper = "Please enter you Description:"
                     msg_help = await ctx.send(msg_helper)
 
-                    msg_desc = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+                    check = lambda message: message.author == ctx.author
+                    msg_desc = await self.bot.wait_for('message', check=check)
 
                     description = msg_desc.content
 

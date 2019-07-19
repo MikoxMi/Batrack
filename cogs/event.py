@@ -39,7 +39,7 @@ class Events(commands.Cog):
                         "money": 0,
                         "tree": 0,
                         "food": 0,
-                        "food_max": 0,
+                        "food_max": 20,
                         "rep": 0,
                         "summary_money": 0,
                         "inventory": inv,
@@ -52,8 +52,10 @@ class Events(commands.Cog):
                         "title": "None",
                         "name_field_1": "None",
                         "name_field_2": "None",
+                        "name_field_3": "None",
                         "field_1": "None",
                         "field_2": "None",
+                        "field_3": "None",
                         "description": "None",
                         "image": "None"
                     }
@@ -218,8 +220,10 @@ class Events(commands.Cog):
                 "title": "None",
                 "name_field_1": "None",
                 "name_field_2": "None",
+                "name_field_3": "None",
                 "field_1": "None",
                 "field_2": "None",
+                "field_3": "None",
                 "description": "None",
                 "image": "None"
             }
