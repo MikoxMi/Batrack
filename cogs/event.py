@@ -25,7 +25,7 @@ class Events(commands.Cog):
         # Get all members to check
         for s in self.bot.guilds:
             for member in s.members:
-                userID = member.id
+                userID = int(member.id)
                 check = await Mongo.get_record('members', 'id', userID)
                 server_record = await Mongo.get_record('server_settings', 'id', s.id)
                 member_profile = await Mongo.get_record('member_profile', 'id', userID)
@@ -34,7 +34,7 @@ class Events(commands.Cog):
                     inv = []
 
                     upg_member = {
-                        "id": int(member.id),
+                        "id": userID,
                         "member_name": f"{member}",
                         "money": 0,
                         "tree": 0,
@@ -47,7 +47,7 @@ class Events(commands.Cog):
                     await Mongo.record_insert('members', upg_member)
                 if member_profile is None:
                     upg_profile = {
-                        "id": int(member.id),
+                        "id": userID,
                         "member_name": f"{member}",
                         "title": "None",
                         "name_field_1": "None",
