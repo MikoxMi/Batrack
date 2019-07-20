@@ -192,7 +192,7 @@ class Shop(commands.Cog):
                 emoji_id = shop_record['emoji_id']
                 server = discord.utils.get(self.bot.guilds, id=emoji_id)
                 emoji_get = discord.utils.get(server.emojis, name=emoji)
-                desc = F"{ctx.message.author.mention} successful purchase of an item: **{item_z}{emoji}**\nIncome:{income}\nThis item has not a role"
+                desc = F"{ctx.message.author.mention} successful purchase of an item: **{item_z}{emoji_get}**\nIncome:{income}\nThis item has not a role"
                 e = discord.Embed(colour=ctx.message.author.colour, description=desc)
             e.set_author(name="Shop system:")
             if image == "None":

@@ -65,7 +65,7 @@ class Events(commands.Cog):
                         "id": int(s.id),
                         "prefix":"=",
                         "emoji_name": "None",
-                        "translator": 'en'
+                        "preds_work": []
                     }
                     await Mongo.record_insert('server_settings', upg_server)
 

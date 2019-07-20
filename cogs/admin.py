@@ -170,5 +170,22 @@ class Admin(commands.Cog):
         
         await Mongo.delete_record('reactions', 'msg_id', message)
 
+    @commands.command(passc_context=True)
+    @has_permissions(administrator=True)
+    async def add_work(self, ctx, *, work):
+        """
+        Добавить работу
+        -add_work <text>
+        """
+        record = await Mongo.get_record('server_settings', 'id', ctx.guild.id)
+        works = record['preds_work']
+        works.append(work)
+        upg = {
+            "preds_work": works
+        }
+        await Mongo.update_record('server_settings', record, upg)
+        await ctx.send("Готово.")
+
+
 def setup(bot):
     bot.add_cog(Admin(bot))
