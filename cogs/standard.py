@@ -59,7 +59,7 @@ class Standard(commands.Cog):
         record = await Mongo.get_record('server_settings', 'id', ctx.guild.id)
         preds_work = record['preds_work']
 
-        choice = random.choice(preds_w  ork)
+        choice = random.choice(preds_work)
         em = discord.Embed(description=F"{ctx.message.author.mention} {choice} {money_z}{emoji}", colour=ctx.message.author.color)
         em.set_author(name=f'{member.name}', icon_url=member.avatar_url)
 
