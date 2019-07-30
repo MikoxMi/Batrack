@@ -43,6 +43,7 @@ class Events(commands.Cog):
                         "rep": 0,
                         "summary_money": 0,
                         "inventory": inv,
+                        "warns": 0
                     }
                     await Mongo.record_insert('members', upg_member)
                 if member_profile is None:
@@ -65,7 +66,8 @@ class Events(commands.Cog):
                         "id": int(s.id),
                         "prefix":"=",
                         "emoji_name": "None",
-                        "preds_work": []
+                        "preds_work": [],
+                        "mute_role": "None"
                     }
                     await Mongo.record_insert('server_settings', upg_server)
 
@@ -210,6 +212,7 @@ class Events(commands.Cog):
                 "rep": 0,
                 "summary_money": 0,
                 "inventory": inv,
+                "warns": 0
             }
             await Mongo.record_insert('members', upg_member)
 
@@ -235,9 +238,9 @@ class Events(commands.Cog):
         Delete record User
         """
         await Mongo.delete_record('members', 'id', member.id)
-        await Mongo.delete_record('members', 'id', member.id)
+        await Mongo.delete_record('members_profile', 'id', member.id)
 
-    @commands.Cog.listener()
+    @commands.Cog.listener
     async def on_command_error(self, ctx, error):
         """Реакция на ошибки в командах или Cooldown"""
         if isinstance(error, commands.NoPrivateMessage):

@@ -6,13 +6,13 @@ from .utils.u_discord import DiscordUtils
 from discord.ext import commands
 from discord.ext.commands import has_permissions
 
-class Warcraft(commands.Cog):
+class RPG(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.group(pass_context=True)
     async def wr(self, ctx):
-        """Warcraft Module
+        """Anime RP_RPG Module
 
         Commands:
         -wr - Показывает это сообщение
@@ -207,4 +207,4 @@ class Warcraft(commands.Cog):
         
 
 def setup(bot):
-    bot.add_cog(Warcraft(bot))
+    bot.add_cog(RPG(bot))
