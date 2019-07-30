@@ -240,7 +240,7 @@ class Events(commands.Cog):
         await Mongo.delete_record('members', 'id', member.id)
         await Mongo.delete_record('members_profile', 'id', member.id)
 
-    @commands.Cog.listener
+    @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         """Реакция на ошибки в командах или Cooldown"""
         if isinstance(error, commands.NoPrivateMessage):
