@@ -250,6 +250,7 @@ class Admin(commands.Cog):
             em = discord.Embed(colour=int('0x36393f', 0), description=desc)
             em.set_image(url='https://i.imgur.com/xiJT07q.gif')
             await ctx.send(embed=em)
+            await member.send(embed=em)
             check_warns = False
         else:
             warns = 3
@@ -262,7 +263,7 @@ class Admin(commands.Cog):
             await ctx.send(embed=e)
             await asyncio.sleep(900)
             await member.remove_roles(role)
-            await ctx.send(f"Мут прошел с пользователя {member.mention}")
+            await member.send(f"С вас прошел мут, можете дальше наслаждаться вечерними буднями на Space Desu.")
             check_warns = True
 
         #* If warns == 3 then reset warns
@@ -338,7 +339,7 @@ class Admin(commands.Cog):
         await asyncio.sleep(count)
 
         await member.remove_roles(role)
-        await ctx.send(f"Мут с пользователя: {member.mention} прошел")
+        await member.send(f"С вас прошел мут, можете дальше наслаждаться вечерними буднями на Space Desu.")
 
     @commands.command(pass_context=True)
     @has_permissions(administrator=True)
@@ -383,7 +384,9 @@ class Admin(commands.Cog):
     @has_permissions(administrator=True)
     async def delete_mute_role(self, ctx):
         """Удаление мут-роли
-        -delete_mute_role"""
+
+        -delete_mute_role
+        """
         
 
         record = await Mongo.get_record('server_settings', 'id', ctx.message.guild.id)
@@ -394,6 +397,8 @@ class Admin(commands.Cog):
 
         await Mongo.update_record('server_settings', record, update)
         await ctx.send(f"Успешное удаление Mute Role")
+
+
 
 
 def setup(bot):
