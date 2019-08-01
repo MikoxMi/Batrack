@@ -154,7 +154,7 @@ class Events(commands.Cog):
         #*Check if bot
         if message.author.bot:
             return
-        
+
         userID = message.author.id
         member_record = await Mongo.get_record('members', 'id', userID)
         server_record = await Mongo.get_record('server_settings', 'id', message.guild.id)
@@ -194,7 +194,8 @@ class Events(commands.Cog):
         """
         Event for member join 
         """
-
+        role = discord.utils.get(member.guild.roles, id=600079277332889610)
+        await member.add_roles(role)
         member_record = await Mongo.get_record('members', 'id', member.id)
         member_profile = await Mongo.get_record('member_profile', 'id', member.id)
             
