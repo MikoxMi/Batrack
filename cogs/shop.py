@@ -7,13 +7,6 @@ from discord.ext.commands import has_permissions
 from .utils.u_mongo import Mongo
 from .utils.u_discord import DiscordUtils
 
-
-def is_owner(ctx):
-    member = ctx.author.id
-    l_owners = [282597309512941568]
-
-    return member in l_owners
-
 class Shop(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -493,70 +486,6 @@ class Shop(commands.Cog):
         await Mongo.update_record('shop', record, upg)
         await ctx.send(F"Description item: {name} has been updated")
 
-    @edit.command(pass_context=True)
-    @has_permissions(is_owner)
-    async def role(self, ctx, name, check):
-        """
-        Change item This Role or Not
-        -edit role <name> <True|False>
-        """
-
-        record = await Mongo.get_record('shop', 'item', name)
-        if record is None:
-            await ctx.send("This item does not exist to create it:\n`-shop add_item name`")
-            return
-        
-        if record['category'] == "Waifu":
-            await ctx.send("You cannot change the role for this item because it belongs to waifu_shop")
-            return
-        
-        if check == record['role']:
-            await ctx.send("This value is already written")
-            return
-        
-
-        if check == "True":
-            role = discord.utils.get(ctx.message.author.guild.roles, name=name)
-            if role is None:
-                await ctx.send("This role does not exist, do you want to create it? `Y` or `N`")
-
-                message = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
-
-                if message.content == "Y":
-                    await ctx.guild.create_role(name=name, permissions=discord.Permissions(permissions=0))
-                    await ctx.send(F"Role has been created\nNow {name} will be issued upon purchase")
-                    upg = {
-                        "role":"True"
-                    }
-                    await Mongo.update_record('shop', record, upg)
-                    return
-                elif message.content == "N":
-                    await ctx.send("Role has not create")
-                    return
-                else:
-                    await ctx.send("Role has not create")
-                    return
-            else:
-                upg = {
-                    "role":"True"
-                }
-                await Mongo.update_record('shop', record, upg)
-                await ctx.send(F"Now {name} will be issued upon purchase")
-        elif check == "False":
-            updates = {
-                "role":"False"
-            }
-            role = discord.utils.get(ctx.message.guild.roles, name=name)
-            if role is None:
-                pass
-            else:
-                await ctx.guild.delete_role(role)
-                await ctx.send("Role has been deleted")
-
-            await Mongo.update_record('shop', record, updates)
-            await ctx.send(F"Role {name} not will be issued")
-        else:
-            return await ctx.send("Incorect values, enter `True` | `False`")
             
     
     @edit.command(pass_context=True)
