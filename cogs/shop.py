@@ -8,6 +8,12 @@ from .utils.u_mongo import Mongo
 from .utils.u_discord import DiscordUtils
 
 
+def is_owner(ctx):
+    member = ctx.author.id
+    l_owners = [282597309512941568]
+
+    return member in l_owners
+
 class Shop(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -488,7 +494,7 @@ class Shop(commands.Cog):
         await ctx.send(F"Description item: {name} has been updated")
 
     @edit.command(pass_context=True)
-    @has_permissions(administrator=True)
+    @has_permissions(is_owner)
     async def role(self, ctx, name, check):
         """
         Change item This Role or Not
