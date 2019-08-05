@@ -25,21 +25,6 @@ class Admin(commands.Cog):
         await Mongo.update_record('server_settings', record, upg)
         await ctx.send(f"Prefix is now: {prefix}")
 
-    @commands.command(pass_context=True)
-    @has_permissions(administrator=True)
-    async def set_descriptor(self, ctx, descriptor='en'):
-        """
-        Set descriptor for translate other languages 
-        -set_descriptor <en, ru>
-        """
-        
-        record = await Mongo.get_record('server_settings', 'id', ctx.message.guild.id)
-
-        upg = {
-            "translator": descriptor
-        }
-        await Mongo.update_record('server_settings', record, upg)
-        await ctx.send(f"Descriptor is now: {descriptor}")
 
     @commands.command(pass_context=True)
     @has_permissions(administrator=True)
@@ -225,7 +210,7 @@ class Admin(commands.Cog):
 
 
     @commands.command(pass_context=True)
-    @has_permissions(administrator=True)
+    @has_permissions(view_audit_log=True)
     async def warn(self, ctx, member: discord.Member, *, reason=None):
         """Заварнить человека
         -warn @member <reason>"""
@@ -278,7 +263,7 @@ class Admin(commands.Cog):
         await Mongo.update_record('members', record, updates)
 
     @commands.command(pass_context=True)
-    @has_permissions(administrator=True)
+    @has_permissions(view_audit_log=True)
     async def unwarn(self, ctx, member:discord.Member):
         """Снять варны с участника сервера
         
@@ -294,7 +279,7 @@ class Admin(commands.Cog):
         await ctx.send(embed=em)
 
     @commands.command(pass_context=True, aliases=['m'])
-    @has_permissions(administrator=True)
+    @has_permissions(view_audit_log=True)
     async def mute(self, ctx, member: discord.Member, duration="15m", *, reason=None):
         """Замутить человека
         -mute <@member> <hour-0> <minute=15> <second=0> <reason>"""
@@ -342,7 +327,7 @@ class Admin(commands.Cog):
         await member.send(f"С вас прошел мут, можете дальше наслаждаться вечерними буднями на Space Desu.")
 
     @commands.command(pass_context=True)
-    @has_permissions(administrator=True)
+    @has_permissions(view_audit_log=True)
     async def unmute(self, ctx, member: discord.Member):
         """Снять с пользователя мут
         
