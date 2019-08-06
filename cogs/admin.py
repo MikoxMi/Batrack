@@ -246,9 +246,32 @@ class Admin(commands.Cog):
             e = discord.Embed(colour=int('0x36393f', 0), description=desc)
             e.set_image(url='https://i.imgur.com/xiJT07q.gif')
             await ctx.send(embed=e)
+
+            muted = record_server['muted']
+            person = {
+                "id": member.id,
+            }
+            muted.append(person)
+            upg = {
+                "muted": muted
+            }
+            await Mongo.update_record('server_settings', record_server, upg)
+
             await asyncio.sleep(900)
             await member.remove_roles(role)
             await member.send(f"С вас прошел мут, можете дальше наслаждаться вечерними буднями на Space Desu.")
+
+            muted = record_server['muted']
+            for i, mute in enumerate(muted):
+                if mute["id"] == member.id:
+                    muted.pop(i)
+                else:
+                    pass
+            upg = {
+                "muted": muted
+            }
+            await Mongo.update_record('server_settings', record_server, upg)
+
             check_warns = True
 
         #* If warns == 3 then reset warns
@@ -321,10 +344,33 @@ class Admin(commands.Cog):
         em.set_image(url="https://i.imgur.com/xTMHjQd.jpg")
         em.set_author(name="Admin system:")
         await ctx.send(embed=em)
+
+        muted = record_server['muted']
+        person = {
+            "id": member.id,
+        }
+        muted.append(person)
+        upg = {
+            "muted": muted
+        }
+        await Mongo.update_record('server_settings', record_server, upg)
+
+
         await asyncio.sleep(count)
 
         await member.remove_roles(role)
         await member.send(f"С вас прошел мут, можете дальше наслаждаться вечерними буднями на Space Desu.")
+
+        muted = record_server['muted']
+        for i, mute in enumerate(muted):
+            if mute["id"] == member.id:
+                muted.pop(i)
+            else:
+                pass
+        upg = {
+            "muted": muted
+        }
+        await Mongo.update_record('server_settings', record_server, upg)
 
     @commands.command(pass_context=True)
     @has_permissions(view_audit_log=True)

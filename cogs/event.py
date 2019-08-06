@@ -1,4 +1,5 @@
 import discord
+import asyncio
 
 from googletrans import Translator
 from cogs.utils.u_mongo import Mongo
@@ -67,7 +68,8 @@ class Events(commands.Cog):
                         "prefix":"=",
                         "emoji_name": "None",
                         "preds_work": [],
-                        "mute_role": "None"
+                        "mute_role": "None",
+                        "muted": []
                     }
                     await Mongo.record_insert('server_settings', upg_server)
 
@@ -196,8 +198,19 @@ class Events(commands.Cog):
         """
         member_record = await Mongo.get_record('members', 'id', member.id)
         member_profile = await Mongo.get_record('member_profile', 'id', member.id)
+        server_record = await Mongo.get_record('server_settings', 'id', member.guild.id)
+
+        role = discord.utils.get(member.guild.roles, id=server_record['mute_role'])
             
         inv = []
+
+        muted = server_record['muted']
+        for i, mute in enumerate(muted):
+            if mute['id'] == member.id:
+                await member.add_roles(role)
+                muted.pop(i)
+            else:
+                pass
 
         if member_record is None:
             upg_member = {
