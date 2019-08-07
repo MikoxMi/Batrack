@@ -1,6 +1,7 @@
 import re
 import asyncio
 import discord
+import random
 
 from .utils.u_mongo import Mongo
 from discord.ext import commands
@@ -191,22 +192,29 @@ class Admin(commands.Cog):
         =lottery <item_name> <>
         Example: =lottery <Бутерброд> <30h, 30m, 30s>
         """
-        time_str = int(re.findall('\\d+', time))
+        time_str = int(re.findall('\\d+', time)[0])
         if "h" in time:
             t = time_str * 60 * 24
             
         elif "m" in time:
             t = time_str * 60
-
         else:
             t = time_str
         
         s_time = f'{time}'
         em = discord.Embed(colour=int('0x36393f', 0))
-        em.set_author(name='Розыгрыш ')
+        em.set_author(name=f'🎉 Розыгрыш: {item}')
 
         msg = await ctx.send(embed=em)
+        await msg.add_reaction('🎉')
         await asyncio.sleep(t)
+
+        reaction = discord.Reaction(message=msg, data=ctx, emoji='🎉')
+        users = await reaction.users().flatten()
+        winner = random.choice(users)
+        print(users)
+        print(winner)
+        await msg.edit(embed=em)
 
 
     @commands.command(pass_context=True)

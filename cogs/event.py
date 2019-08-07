@@ -186,10 +186,12 @@ class Events(commands.Cog):
                 await Mongo.update_record('members', member_record, upg_money)
 
         channel_art = server_record["channel_art"]
-        if str(message.channel) in channel_art:
-            reactions = ['👍', '👎']
-            for react in reactions:
-                await message.add_reaction(react)
+
+        if message.attachments:
+            if str(message.channel) in channel_art:
+                reactions = ['👍', '👎']
+                for react in reactions:
+                    await message.add_reaction(react)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
