@@ -152,6 +152,12 @@ class Events(commands.Cog):
         """
         React bot on all member message
         """
+        
+        #Else Mudae Bot
+        if message.author.id == 594159570688147466:
+            reacts = ['❤', '⬅', '➡']
+            for react in reacts:
+                await message.add_reaction(react)
 
         #*Check if bot
         if message.author.bot:
@@ -185,10 +191,6 @@ class Events(commands.Cog):
                 }
                 await Mongo.update_record('members', member_record, upg_money)
 
-        if message.author.id == 594159570688147466:
-            reacts = ['❤', '⬅', '➡']
-            for react in reacts:
-                await message.add_reaction(react)
 
         channel_art = server_record["channel_art"]
 
