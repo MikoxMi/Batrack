@@ -80,7 +80,7 @@ class Admin(commands.Cog):
             await ctx.send("Роль не существует")
             return
 
-        channel = discord.utils.get(self.bot.get_all_channels(), guild__name=ctx.guild.name, name=channel_name)
+        channel = discord.utils.get(self.bot.get_all_channels(), guild__name='Space Desu', name=channel_name)
         msg = await channel.fetch_message(int(message))
 
         if record is None:
