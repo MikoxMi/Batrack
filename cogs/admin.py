@@ -75,12 +75,14 @@ class Admin(commands.Cog):
 
         record = await Mongo.get_record('reactions', 'msg_id', str(message))
 
-        check_role = discord.utils.get(ctx.guild.roles, name=role)
+        guild = discord.utils.get(self.bot.guilds, id=593163382421585921)
+
+        check_role = discord.utils.get(guild.roles, name=role)
         if check_role is None:
             await ctx.send("Роль не существует")
             return
 
-        channel = discord.utils.get(self.bot.get_all_channels(), guild__name='Space Desu', name=channel_name)
+        channel = discord.utils.get(self.bot.get_all_channels(), guild__name=guild.name, name=channel_name)
         msg = await channel.fetch_message(int(message))
 
         if record is None:
