@@ -179,7 +179,7 @@ class Admin(commands.Cog):
         =edit_embed <channel_id> <msg_id> <msg> 
         """
 
-        channel = discord.utils.get(self.bot.get_all_channels(), guild__name=ctx.guild.name, name=channel_id)
+        channel = discord.utils.get(self.bot.get_all_channels(), guild__name='Space Desu', name=channel_id)
         get_msg = await channel.fetch_message(int(msg_id))
 
         e = discord.Embed(colour=int('0x36393f', 0), description=msg)
